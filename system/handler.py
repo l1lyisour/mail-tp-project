@@ -1,7 +1,9 @@
 import os
 import shutil
 import logging
-from stats import ReportGenerator
+from system.stats import ReportGenerator
+from system.classifier import Classifier
+from system.mail import Email
 
 class MailHandler:
     def __init__(self, inbox_path, processed_path):
