@@ -5,7 +5,7 @@ from system.mail import Email
 def normal_email():
     return Email(
         name ='Леонардо Ди Каприо',
-        sender_email='leonardodicaprio@company.ru'
+        sender_email='leonardodicaprio@company.ru',
         theme ='Не работает принтер',
         content="""
 Добрый день, коллеги!
