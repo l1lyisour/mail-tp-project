@@ -1,12 +1,14 @@
 from system.handler import MailHandler
-
+from system.stats import ReportGenerator
 def test_file_not_found(tmp_path):
     handler = MailHandler(
         str(tmp_path / "inbox"),
         str(tmp_path / "processed")
     )
 
-    result = handler.handle_one("no_such_file.txt")
+    mock_stats = ReportGenerator()
+
+    result = handler.handle_one("no_such_file.txt",mock_stats)
 
     assert result is None
 
@@ -23,8 +25,10 @@ def test_non_utf8_email(non_utf8_email, tmp_path):
         f.write(non_utf8_email)
     
     handler = MailHandler(str(inbox), str(processed))
+
+    mock_stats = ReportGenerator()
     
-    res = handler.handle_one(str(file))
+    res = handler.handle_one(str(file),mock_stats)
 
     assert res == ('unknown', False)
 
@@ -39,8 +43,9 @@ def test_blank_mail(blank_mail, tmp_path):
     file.write_text(blank_mail, encoding="utf-8")
 
     handler = MailHandler(str(inbox), str(processed))
+    mock_stats = ReportGenerator()
 
-    res = handler.handle_one(str(file))
+    res = handler.handle_one(str(file),mock_stats)
 
     assert res is None or res == ('unknown', False)
 
@@ -62,7 +67,8 @@ def test_security_email(tmp_path):
     )
 
     handler = MailHandler(str(inbox),str(processed))
+    mock_stats = ReportGenerator()
 
-    handler.handle_one(str(file))
+    handler.handle_one(str(file),mock_stats)
 
     assert not file.exists()
