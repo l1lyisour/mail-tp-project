@@ -32,11 +32,18 @@ class MailHandler:
             name = ""
             theme = ""
             content = ""
+            sender_email = ""
             attachments = []
 
             for line in raw_content.split("\n"):
                 if line.startswith("От кого:"):
-                    name = line.replace("От кого:", "").strip()
+                    value = line.replace("От кого:", "").strip()
+                    if "<" in value and ">" in value:
+                        name = value.split("<")[0].strip()
+                        sender_email = value.split("<")[1].split(">")[0].strip()
+                    else:
+                        name = value
+                        sender_email = ""
                 elif line.startswith("Тема:"):
                     theme = line.replace("Тема:", "").strip()
             
@@ -53,7 +60,7 @@ class MailHandler:
             if len(parts) > 1:
                 content = parts[1].strip()
 
-            email = Email(name=name, content=content, theme=theme, path=filepath, attachments=attachments)
+            email = Email(name=name, content=content, theme=theme, path=filepath, attachments=attachments,sender_email=sender_email)
             category = self.classifier.classify(email)
 
             destination = os.path.join(self.processed_path, category)
