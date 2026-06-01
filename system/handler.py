@@ -19,7 +19,7 @@ class MailHandler:
         stats = ReportGenerator()
         for filename in os.listdir(self.inbox_path):
             filepath = os.path.join(self.inbox_path, filename)
-            if os.path.isfile(filename):
+            if os.path.isfile(filepath):
                 self.handle_one(filepath)
         stats.generate()
         return stats
