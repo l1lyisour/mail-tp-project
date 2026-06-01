@@ -1,44 +1,51 @@
 import pytest
+from system.mail import Email
 
-@pytest.fixture()
-def email_without_theme():
-    return """От кого: Элл Вудс
+def test_email_creation():
+    email = Email(
+        name='Иван Иванов',
+        sender_email='ivanov@company.ru',
+        content='Привет',
+        theme='Тема',
+        path='file.txt'
+    )
 
-Не работает компьютер, не могу войти в систему.
-"""
+    assert email.name == 'Иван Иванов'
+    assert email.content == 'Привет'
+    assert email.theme == 'Тема'
+    assert email.path == 'file.txt'
+    assert email.is_urgent == False
+    assert email.attachments == []
 
-@pytest.fixture()
-def email_only_theme():
-    return """От кого: Владимир Братишкин
-Тема: Ошибка браузера
-"""
+def test_email_with_attachments():
+    email = Email(
+        name = 'HR',
+        theme='Docs',
+        content='...',
+        path='file.txt',
+        attachments=['a.pdf','b.docx']
+    )
+    assert email.attachments == ['a.pdf','b.docx']
 
-@pytest.fixture()
-def multi_category_email():
-    return """От кого: Илья Мазеллов
-Тема: Срочно! 
+def test_email_without_attachments():
+    email = Email(
+        name = 'HR',
+        theme='Docs',
+        content='...',
+        path='file.txt'
+    )
+    assert email.attachments == []
 
-Обнаружена утечка данных.
-Также действует скидка на услуги.
-"""
+def test_email_str():
+    email = Email(
+        name='Иван Иванов',
+        theme='Тема',
+        content='Привет',
+        path='file.txt',
+    )
 
-@pytest.fixture()
-def urgent_unknown_email():
-    return """От кого: Иван Бессмертных
-Тема: Срочно
+    res = str(email)
 
-Просто хотел уточнить вопрос по проекту.
-"""
+    assert 'Иван' in res
+    assert 'Тема' in res
 
-@pytest.fixture()
-def empty_email():
-    return """От кого: noreply@monitoring.internal
-"""
-
-@pytest.fixture()
-def blank_mail():
-    return ""
-
-@pytest.fixture()
-def non_utf8_email():
-    return b"\xff\xfe\xff\xfe"
