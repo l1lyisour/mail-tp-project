@@ -24,7 +24,7 @@ MAIL-TP-PROJECT/                    # Корневая папка проекта
 |   |-- handler.py                  # Класс MailHandler: Чтение, обработка и перемещение писем
 |   |-- mail.py                     # Класс Email: Модель письма
 |   |-- stats.py                    # Класс ReportGenerator: Генерация отчёта
-|-- tests                           # Тесты pytest
+|-- tests/                          # Тесты pytest
 |   |-- __init__.py                 # 
 |   |-- conftest.py                 # Общие фикстуры и вспомогательные настройки для тестов
 |   |-- test_classifier.py          # Тесты класса Classifier
