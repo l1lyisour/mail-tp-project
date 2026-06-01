@@ -32,17 +32,27 @@ class MailHandler:
             name = ""
             theme = ""
             content = ""
+            attachments = []
+
             for line in raw_content.split("\n"):
                 if line.startswith("От кого:"):
                     name = line.replace("От кого:", "").strip()
                 elif line.startswith("Тема:"):
                     theme = line.replace("Тема:", "").strip()
             
+                elif (
+                    line.startswith("Прикрепил:")
+                    or line.startswith("Файл:")
+                    or line.startswith("Вложение:")
+            ):
+                    attachment = line.split(":", 1)[1].strip()
+                    attachments.append(attachment)
+
             parts = raw_content.split("\n\n", 1)
             if len(parts) > 1:
                 content = parts[1].strip()
 
-            email = Email(name=name, content=content, theme=theme, path=filepath)
+            email = Email(name=name, content=content, theme=theme, path=filepath, attachments=attachments)
             category = self.classifier.classify(email)
 
             destination = os.path.join(self.processed_path, category)
