@@ -1,6 +1,7 @@
 class Email:
-    def __init__(self, name, content, theme, path, is_urgent=False, attachments=None):
+    def __init__(self, name, content, theme, path, is_urgent=False, attachments=None,sender_email=''):
         self.name = name
+        self.sender_email = sender_email
         self.content = content
         self.theme = theme
         self.path = path

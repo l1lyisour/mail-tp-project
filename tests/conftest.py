@@ -1,24 +1,29 @@
 import pytest
+from system.mail import Email
 
 @pytest.fixture()
 def normal_email():
-    return """От кого: Леонардо Ди Каприо 
-Кому: it-support@company.ru
-Тема: Не работает принтер
-
+    return Email(
+        name = 'Леонардо Ди Каприо',
+        theme = 'Не работает принтер',
+        content="""
 Добрый день, коллеги!
-Принтер не печатает уже второй день.
-"""
+Принтер не печатает уже второй день.""",
+        path = "normal_email.txt"
+    )
 
 @pytest.fixture()
 def urgent_email():
-    return """От кого: Сабрина Карпентер
+    return Email(
+        name = 'Сабрина Карпентер',
+        
 Кому: it-support@company.ru
 Тема: Срочно! Взлом аккаунта
 
 Срочно!
 Мой аккаунт был взломан, срочно помогите восстановить доступ!
 """
+    )
 
 @pytest.fixture()
 def spam_email():
