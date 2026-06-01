@@ -75,6 +75,8 @@ def email_with_attachments():
         attachments=['трудовой_договор.pdf', 'политика_безопасности.docx']
     )
 
+# ТЕСТЫ MAILHANDLER
+
 @pytest.fixture()
 def email_without_theme():
     return """От кого: Элл Вудс
