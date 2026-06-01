@@ -15,9 +15,9 @@ class ReportGenerator:
         report_lines.append('Отчёт обработки почты')
         for category, data in self.stats.items():
             if category == 'unknown':
-                report_lines.append(f'{category}: {data['total']} письмо')
+                report_lines.append(f"{category}: {data['total']} письмо")
             else:
-                report_lines.append(f'{category}: {data['total']} писем, {data['urgent']} важных')
+                report_lines.append(f"{category}: {data['total']} писем, {data['urgent']} важных")
         report_lines.append(f'Итого: {summ_letters} писем')
         for line in report_lines:
             print(line)

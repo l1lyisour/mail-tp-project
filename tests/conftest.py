@@ -4,46 +4,76 @@ from system.mail import Email
 @pytest.fixture()
 def normal_email():
     return Email(
-        name = 'Леонардо Ди Каприо',
-        theme = 'Не работает принтер',
+        name ='Леонардо Ди Каприо',
+        sender_email='leonardodicaprio@company.ru'
+        theme ='Не работает принтер',
         content="""
 Добрый день, коллеги!
-Принтер не печатает уже второй день.""",
-        path = "normal_email.txt"
+Принтер не печатает уже второй день.
+""",
+        path ="normal_email.txt"
     )
 
 @pytest.fixture()
 def urgent_email():
     return Email(
-        name = 'Сабрина Карпентер',
-        
-Кому: it-support@company.ru
-Тема: Срочно! Взлом аккаунта
-
+        name ='Сабрина Карпентер',
+        sender_email='it-support@company.ru',
+        theme='Срочно! Взлом аккаунта',
+        content="""
 Срочно!
-Мой аккаунт был взломан, срочно помогите восстановить доступ!
-"""
+Мой аккаунт был взломан, срочно помогите восстановить доступ!""",
+        path = "urgent_email.txt",
     )
 
 @pytest.fixture()
 def spam_email():
-    return """От кого: Рекламная рассылка
-Тема: Вы стали победителем!
-
+    return Email(
+        name='Рекламная рассылка',
+        sender_email='winprize@gmail.com',
+        theme='Вы стали победителем!',
+        content="""
 Уважаемый пользователь,
 Вы стали победителем нашего розыгрыша и выиграли 1.000.000 рублей! 
 Чтобы получить свой приз, пожалуйста, перейдите по ссылке ниже и заполните форму с вашими данными.
 [Получить приз](http://67easywin.com/prize)
-"""
+""",
+        path="spam_email.txt",
+        )
 
 @pytest.fixture()
 def monitoring_email():
-    return """От кого: System Monitoring <system@company.ru>
-Тема: WARNING
-
-Сервис: API Gateway
+    return Email(
+        name='System Monitoring',
+        sender_email='system@company.ru',
+        theme='WARNING',
+        content ="""Сервис: API Gateway
 CPU usage: 85%
-"""
+""",
+        path="monitoring_email.txt"
+    )
+
+@pytest.fixture()
+def upper_case_email():
+    return Email(
+        name='Брэд Питт',
+        sender_email='brad@company.ru',
+        theme='СРОЧНО! ВЗЛОМ АККАУНТА',
+        content=""" ТРЕБУЕТСЯ НЕОТЛОЖНАЯ ПОМОЩЬ!""",
+        path="upper_case_email.txt"
+    )
+
+
+@pytest.fixture()
+def email_with_attachments():
+    return Email(
+        name='Ким Йена',
+        sender_email='kim@company.ru',
+        theme='Важные документы',
+        content='Здравствуйте,\nНаправляю документы для ознакомления и согласования.',
+        path='email_with_attachments.txt',
+        attachments=['трудовой_договор.pdf', 'политика_безопасности.docx']
+    )
 
 @pytest.fixture()
 def email_without_theme():
@@ -81,29 +111,9 @@ def empty_email():
 """
 
 @pytest.fixture()
-def non_utf8_email():
-    return b"\xff\xfe\xff\xfe"
-
-@pytest.fixture()
 def blank_mail():
     return ""
 
 @pytest.fixture()
-def upper_case_email():
-    return """От кого: Брэд Питт 
-Тема: СРОЧНО! ВЗЛОМ АККАУНТА
-
-ТРЕБУЕТСЯ НЕОТЛОЖНАЯ ПОМОЩЬ!
-"""
-
-@pytest.fixture()
-def email_with_attachments():
-    return """От кого: Ким Йена
-Кому: all@company.ru
-Тема: Важные документы
-
-Здравствуйте,
-Направляю документы для ознакомления и согласования.
-
-Прикрепил: трудовой_договор.pdf, политика_безопасности.docx, должностная_инструкция.pdf
-"""
+def non_utf8_email():
+    return b"\xff\xfe\xff\xfe"
