@@ -17,14 +17,17 @@ class MailHandler:
 
     def handle_all(self):
         stats = ReportGenerator()
-        for filename in os.listdir(self.inbox_path):
+        files = os.listdir(self.inbox_path)
+        for filename in files:
+            if filename.startswith("."):  
+                continue
             filepath = os.path.join(self.inbox_path, filename)
             if os.path.isfile(filepath):
-                self.handle_one(filepath)
+                self.handle_one(filepath, stats)
         stats.generate()
         return stats
 
-    def handle_one(self, filepath):
+    def handle_one(self, filepath, stats):
         try:
             with open(filepath, "r", encoding="utf-8") as source:
                 raw_content = source.read()
@@ -36,16 +39,16 @@ class MailHandler:
             attachments = []
 
             for line in raw_content.split("\n"):
-                if line.startswith("От кого:"):
-                    value = line.replace("От кого:", "").strip()
+                if line.startswith("От кого:") or line.startswith("From:"):
+                    value = line.replace("От кого:", "").replace("From:", "").strip()
                     if "<" in value and ">" in value:
                         name = value.split("<")[0].strip()
                         sender_email = value.split("<")[1].split(">")[0].strip()
                     else:
                         name = value
                         sender_email = ""
-                elif line.startswith("Тема:"):
-                    theme = line.replace("Тема:", "").strip()
+                elif line.startswith("Тема:") or line.startswith("Subject:"):
+                    theme = line.replace("Тема:", "").replace("Subject:", "").strip()
             
                 elif (
                     line.startswith("Прикрепил:")
@@ -62,6 +65,7 @@ class MailHandler:
 
             email = Email(name=name, content=content, theme=theme, path=filepath, attachments=attachments,sender_email=sender_email)
             category = self.classifier.classify(email)
+            stats.add(category, email.is_urgent)
 
             destination = os.path.join(self.processed_path, category)
             shutil.move(filepath, destination)
