@@ -46,8 +46,9 @@ class MailHandler:
                     or line.startswith("Вложение:")
             ):
                     attachment = line.split(":", 1)[1].strip()
-                    attachments.append(attachment)
-
+                    attachments.extend(
+                        file.strip() for file in attachment.split(",")
+                    )
             parts = raw_content.split("\n\n", 1)
             if len(parts) > 1:
                 content = parts[1].strip()
