@@ -20,5 +20,7 @@ class Classifier:
         for category, words in self.keywords.items():
             for w in words:
                 if w in text:
+                    if category == "security":
+                        email.is_urgent = True
                     return category
         return "unknown"
