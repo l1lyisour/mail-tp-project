@@ -12,6 +12,6 @@ class Email:
         attach = f", вложения: {', '.join(self.attachments)}" if self.attachments else ""
         return f"Письмо от: {self.name}, тема: {self.theme}, важность: {urgent}{attach}"
 
-    
+
 
     
