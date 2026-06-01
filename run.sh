@@ -15,7 +15,7 @@ fi
 
 mkdir -p "$PROCESSED_DIR"
 
-echo "Запуск классификации (вывод ошибкок в $LOG_FILE)..."
+echo "Запуск классификации (вывод ошибок в $LOG_FILE)..."
 py main.py 2>> "$LOG_FILE"
 
 EXIT_CODE=$?

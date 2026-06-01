@@ -220,3 +220,4 @@ __marimo__/
 inbox/*.txt
 processed/
 run.log
+stats.txt
